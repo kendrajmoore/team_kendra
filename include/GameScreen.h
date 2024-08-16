@@ -5,6 +5,7 @@
 #include "start.h"
 #include "Screen.h"
 #include "Snake.h"
+#include "Food.h"
 
 
 // -------------------------------
@@ -20,6 +21,7 @@ static sf::Vector2f generateRandomPosition(float width, float height) {
     std::uniform_int_distribution<> disY(0, WINDOW_HEIGHT - height);
     return sf::Vector2f(disX(gen), disY(gen));
 }
+
 class Game;
 
 class GameScreen : public Screen {
@@ -35,7 +37,7 @@ private:
     std::vector<Shape> shapes_;
     Direction currentDirection_;
     sf::Clock clock_;
-    Shape food_;
+    Food food_;
     int foodEaten_;
     Game& game_;
 };

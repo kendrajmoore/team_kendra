@@ -1,13 +1,15 @@
 #include "start.h"
 #include "Snake.h"
 #include "Game.h"
-#include "GameScreen.h"
+#include "GameWonScreen.h"
+#include "GameLostScreen.h"
+
 
 // -------------------------------
 // Section: Snake
 // -------------------------------
 
-
+Game game;
 Snake::Snake(): currentDirection_(None), isGameOver_(false){
     sf::Vector2f startPosition(Game::Width / 2 - SQUARE_SIZE / 2, Game::Height / 2 - SQUARE_SIZE / 2);
     shapes_.emplace_back(SQUARE_SIZE, SQUARE_SIZE, startPosition, sf::Color::Red);
@@ -41,41 +43,48 @@ void Snake::move(){
     shapes_[0].shape.setFillColor(sf::Color::Red);
 }
 
-void Snake::checkCollisions(Shape& food, int& foodEaten){
+void Snake::checkCollisions(Food& food, int& foodEaten, Game& game){
     if (shapes_[0].getBounds().intersects(food.getBounds())) {
         grow();
         foodEaten++;
-        food.shape.setFillColor(sf::Color::Red);
+
+        food.setFillColor(sf::Color::Red);
         sf::sleep(sf::milliseconds(100));
+
         bool validPosition = false;
         while(!validPosition){
-            food.shape.setPosition(generateRandomPosition(SQUARE_SIZE, SQUARE_SIZE));
-            food.shape.setFillColor(sf::Color::Magenta);
+            food.respawn();
+            food.setFillColor(sf::Color::Magenta);
             validPosition = true;
-            for (auto& segment : shapes_) {
+            for (const auto& segment : shapes_) {
                 if (food.getBounds().intersects(segment.getBounds())) {
                     validPosition = false;
                     break;
                 }
             }
         }
+        if (foodEaten >= MAX_FOOD_COUNT) {
+            game.currentScreen_ = std::make_shared<GameWonScreen>(game);
+            return;
+        }
+
     }
 
     sf::Vector2f headPosition = getHeadPosition();
     if (headPosition.x < 0 || headPosition.x >= WINDOW_WIDTH || headPosition.y < 0 || headPosition.y >= WINDOW_HEIGHT) {
-        isGameOver_ = true;
+        game.currentScreen_ = std::make_shared<GameLostScreen>(game);
+        return;
     }
 
 
     if (currentDirection_ != None) {
         for (int i = 1; i < shapes_.size(); ++i) {
             if (shapes_[0].getBounds().intersects(shapes_[i].getBounds())) {
-                isGameOver_ = true;
-                break;
+                game.currentScreen_ = std::make_shared<GameLostScreen>(game);
+                return;
             }
         }
     }
-
 }
 
 void Snake::grow() {

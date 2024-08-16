@@ -1,7 +1,8 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include "start.h"
+#include "Food.h"
+#include "Game.h"
 
 
 // -------------------------------
@@ -13,7 +14,7 @@ class Snake{
 public:
     Snake();
     void move();
-    void checkCollisions(Shape& food, int& foodEaten);
+    void checkCollisions(Food& food, int& foodEaten, Game& game);
     void grow();
     void setDirection(Direction newDirection);
     void render(sf::RenderWindow& window);

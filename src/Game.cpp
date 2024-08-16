@@ -7,12 +7,11 @@
 // Section: Game Class Instance
 // -------------------------------
 
-
-const sf::Time Game::TimePerFrame = sf::seconds(1.f / 60.f);
+const sf::Time Game::TimePerFrame = sf::seconds(1.f / 10.f);
 
 
 Game::Game()
-        : window_(sf::VideoMode(Game::Width, Game::Height), "Snake Game"),
+        : window_(sf::VideoMode(Game::Width, Game::Height), "Snake"),
           currentScreen_(std::make_shared<MenuScreen>(*this)) {
 
 }

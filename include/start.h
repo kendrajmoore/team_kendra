@@ -17,7 +17,7 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 800
 #define SQUARE_SIZE 20.f
-#define MOVE_DELAY 0.2f
+#define MOVE_DELAY 0.1f
 #define MAX_FOOD_COUNT 100
 
 
@@ -43,16 +43,10 @@ struct Shape {
 
     void move(Direction dir, float speed) {
         sf::Vector2f offset(0.f, 0.f);
-        if (dir == Left) {
-            offset.x = -speed;
-        } else if (dir == Right) {
-            offset.x = speed;
-        } else if (dir == Up) {
-            offset.y = -speed;
-        } else if (dir == Down) {
-            offset.y = speed;
-        }
-
+        if (dir == Left) offset.x = -speed;
+        else if (dir == Right) offset.x = speed;
+        else if (dir == Up) offset.y = -speed;
+        else if (dir == Down) offset.y = speed;
         shape.move(offset);
     }
     sf::Vector2f getPosition() const {
@@ -63,6 +57,14 @@ struct Shape {
         return shape.getGlobalBounds();
     }
 
+    void setFillColor(const sf::Color& color) {
+        shape.setFillColor(color);
+    }
+
+    void setPosition(const sf::Vector2f& position) {
+        shape.setPosition(position);
+    }
+
 };
 
-#endif //TEAM_KENDRA_START_H
+#endif
