@@ -35,11 +35,9 @@ void GameScreen::handleInput(sf::RenderWindow& window) {
 
 void GameScreen::update(sf::Time delta) {
     if (clock_.getElapsedTime().asSeconds() >= MOVE_DELAY) {
-        if (currentDirection_ != None) {
-            snake_.move();
-            snake_.checkCollisions(food_, foodEaten_);
-        }
         clock_.restart();
+        snake_.move();
+        snake_.checkCollisions(food_, foodEaten_);
     }
 
     if (snake_.isGameOver()) {

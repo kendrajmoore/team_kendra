@@ -3,6 +3,7 @@
 
 #include "start.h"
 
+
 // -------------------------------
 // Section: Snake
 // -------------------------------
@@ -17,6 +18,8 @@ public:
     void setDirection(Direction newDirection);
     void render(sf::RenderWindow& window);
     bool isGameOver() const;
+    sf::Vector2f getHeadPosition() const;
+
 private:
     Direction currentDirection_;
     std::vector<Shape> shapes_;
