@@ -9,7 +9,6 @@
 // Section: Snake
 // -------------------------------
 
-Game game;
 Snake::Snake(): currentDirection_(None), isGameOver_(false){
     sf::Vector2f startPosition(Game::Width / 2 - SQUARE_SIZE / 2, Game::Height / 2 - SQUARE_SIZE / 2);
     shapes_.emplace_back(SQUARE_SIZE, SQUARE_SIZE, startPosition, sf::Color::Red);
